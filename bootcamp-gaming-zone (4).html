@@ -1,0 +1,539 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Bootcamp Gaming Zone — Play. Train. Dominate.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Rajdhani:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black: #0a0a0a;
+    --panel: #141414;
+    --panel-2: #1c1c1c;
+    --red: #e0212f;
+    --red-deep: #7a0d16;
+    --bone: #ece8de;
+    --bone-dim: #9c9890;
+    --steel: #3a3a3a;
+  }
+
+  *{ margin:0; padding:0; box-sizing:border-box; }
+
+  html{ scroll-behavior: smooth; }
+
+  body{
+    background: var(--black);
+    color: var(--bone);
+    font-family: 'Rajdhani', sans-serif;
+    overflow-x: hidden;
+  }
+
+  h1,h2,h3, .display{
+    font-family: 'Anton', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    line-height: 0.95;
+  }
+
+  a{ color: inherit; text-decoration: none; }
+
+  .stencil-rule{
+    height: 3px;
+    background: repeating-linear-gradient(90deg, var(--red) 0 18px, transparent 18px 26px);
+  }
+
+  /* ---------- NAV ---------- */
+  nav{
+    position: fixed; top:0; left:0; right:0; z-index: 100;
+    display:flex; align-items:center; justify-content:space-between;
+    padding: 18px 6vw;
+    background: linear-gradient(180deg, rgba(10,10,10,0.95), rgba(10,10,10,0));
+    backdrop-filter: blur(2px);
+  }
+  .logo{
+    font-family:'Anton', sans-serif;
+    font-size: 1.4rem;
+    letter-spacing: 0.05em;
+  }
+  .logo span{ color: var(--red); }
+  .nav-links{ display:flex; gap: 2.2rem; font-weight:600; font-size:0.95rem; letter-spacing:0.08em; text-transform:uppercase; }
+  .nav-links a{ opacity:0.8; transition: opacity 0.2s, color 0.2s; position:relative; }
+  .nav-links a:hover{ opacity:1; color:var(--red); }
+  .nav-cta{
+    border:1.5px solid var(--red); padding:8px 18px; font-weight:700; text-transform:uppercase;
+    font-size:0.85rem; letter-spacing:0.06em; transition: background 0.2s, color 0.2s;
+    background:none; cursor:pointer; font-family:'Rajdhani',sans-serif;
+  }
+  .nav-cta:hover{ background:var(--red); color:var(--black); }
+  .burger{ display:none; }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    min-height: 100vh;
+    display:flex; flex-direction:column; justify-content:center;
+    position: relative;
+    padding: 0 6vw;
+    background:
+      linear-gradient(160deg, rgba(224,33,47,0.12), transparent 55%),
+      radial-gradient(ellipse at 80% 20%, rgba(224,33,47,0.15), transparent 50%),
+      var(--black);
+  }
+  .hero::before{
+    content:"";
+    position:absolute; inset:0;
+    background-image:
+      repeating-linear-gradient(115deg, rgba(255,255,255,0.025) 0 1px, transparent 1px 60px),
+      repeating-linear-gradient(25deg, rgba(255,255,255,0.02) 0 1px, transparent 1px 60px);
+    pointer-events:none;
+  }
+  .hero-eyebrow{
+    color: var(--red); font-weight:700; letter-spacing:0.35em; font-size:0.8rem;
+    margin-bottom: 1.2rem; display:flex; align-items:center; gap:12px;
+  }
+  .hero-eyebrow::before{ content:""; width:34px; height:2px; background:var(--red); display:inline-block; }
+  .hero h1{
+    font-size: clamp(3.2rem, 10vw, 8.5rem);
+    color: var(--bone);
+  }
+  .hero h1 .accent{ color: var(--red); }
+  .hero-sub{
+    max-width: 560px; margin-top: 1.6rem; font-size: 1.15rem; color: var(--bone-dim);
+    font-weight:500; line-height:1.5;
+  }
+  .hero-actions{ display:flex; gap:1rem; margin-top: 2.6rem; flex-wrap:wrap; }
+  .btn-primary, .btn-ghost{
+    padding: 16px 30px; font-weight:700; text-transform:uppercase; letter-spacing:0.08em;
+    font-size:0.95rem; display:inline-flex; align-items:center; gap:10px; transition: all 0.2s;
+    border:none; cursor:pointer; font-family:'Rajdhani',sans-serif;
+  }
+  .btn-primary{ background: var(--red); color: var(--black); clip-path: polygon(0 0, 100% 0, 94% 100%, 0% 100%); }
+  .btn-primary:hover{ background: #ff3b48; }
+  .btn-ghost{ border:1.5px solid var(--steel); color:var(--bone); background:none; }
+  .btn-ghost:hover{ border-color: var(--red); color: var(--red); }
+
+  .hero-tags{
+    position:absolute; right:6vw; bottom:10vh; display:flex; gap:14px;
+  }
+  @media (max-width: 900px){ .hero-tags{ display:none; } }
+
+  .platform-strip{
+    display:flex; gap: 2.4rem; margin-top:3.4rem; align-items:center; flex-wrap:wrap;
+    color: var(--bone-dim); font-weight:600; letter-spacing:0.05em; font-size:0.95rem;
+  }
+  .platform-strip .pf{ display:flex; align-items:center; gap:8px; }
+  .platform-strip .dot{ width:6px; height:6px; background:var(--red); border-radius:50%; }
+
+  /* ---------- SECTION SHELL ---------- */
+  section{ padding: 7rem 6vw; position:relative; }
+  .section-head{ margin-bottom: 3.2rem; }
+  .section-num{ color: var(--red); font-weight:700; letter-spacing:0.3em; font-size:0.8rem; }
+  .section-title{ font-size: clamp(2.2rem, 5vw, 3.6rem); margin-top:0.4rem; }
+
+  /* ---------- SERVICES ---------- */
+  .services{ background: var(--panel); }
+  .service-grid{ display:grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--steel); border:1px solid var(--steel); }
+  .service-card{
+    background: var(--panel); padding: 2.4rem 2rem; transition: background 0.25s;
+  }
+  .service-card:hover{ background: var(--panel-2); }
+  .service-num{ font-family:'Anton',sans-serif; font-size:2.4rem; color: var(--red-deep); }
+  .service-card h3{ font-size:1.5rem; margin: 0.8rem 0 0.6rem; }
+  .service-card p{ color: var(--bone-dim); font-size:1.02rem; line-height:1.5; }
+  @media (max-width: 800px){ .service-grid{ grid-template-columns: 1fr; } }
+
+  /* ---------- ARSENAL / GAME DOG TAGS ---------- */
+  .arsenal-sub{ color: var(--bone-dim); max-width: 620px; margin-top: -1.6rem; margin-bottom: 3rem; font-size:1.05rem; }
+  .tag-grid{
+    display:grid; grid-template-columns: repeat(auto-fill, minmax(210px, 1fr)); gap: 1.8rem 1.4rem;
+  }
+  .tag{
+    background: linear-gradient(160deg, #2b2b2b, #171717);
+    border: 1px solid #3a3a3a;
+    border-radius: 10px;
+    padding: 1.6rem 1.3rem 1.3rem;
+    position: relative;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.35);
+    transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+  }
+  .tag::before{
+    content:""; position:absolute; top:14px; left:50%; transform:translateX(-50%);
+    width:26px; height:8px; border-radius:6px; background:#0a0a0a;
+    box-shadow: inset 0 0 0 1.5px #444;
+  }
+  .tag:nth-child(odd){ transform: rotate(-2deg); }
+  .tag:nth-child(even){ transform: rotate(1.5deg); }
+  .tag:hover{ transform: rotate(0deg) translateY(-6px); border-color: var(--red); box-shadow: 0 14px 26px rgba(224,33,47,0.18); }
+  .tag .plat{ color: var(--red); font-weight:700; font-size:0.72rem; letter-spacing:0.18em; text-transform:uppercase; margin-top:0.6rem; }
+  .tag h4{ font-family:'Anton', sans-serif; font-size:1.25rem; margin-top:0.5rem; text-transform:uppercase; letter-spacing:0.01em; }
+
+  /* ---------- BOOKING BAND ---------- */
+  .booking{
+    background: linear-gradient(135deg, var(--red-deep), #400509);
+    display:flex; flex-wrap:wrap; align-items:center; justify-content:space-between; gap:2rem;
+  }
+  .booking h2{ font-size: clamp(2rem, 4.4vw, 3.2rem); max-width:640px; color:var(--bone); }
+  .booking-numbers{ display:flex; flex-direction:column; gap:0.6rem; }
+  .booking-numbers a{
+    font-family:'Anton', sans-serif; font-size: clamp(1.6rem, 3vw, 2.2rem); letter-spacing:0.02em;
+    display:flex; align-items:center; gap:12px;
+  }
+  .booking-numbers a:hover{ color: var(--bone); text-decoration: underline; }
+  .call-ico{ width:22px; height:22px; }
+
+  /* ---------- LOCATION ---------- */
+  .location{ background: var(--panel); }
+  .loc-grid{ display:grid; grid-template-columns: 1.1fr 1fr; gap: 2.5rem; align-items:stretch; }
+  .loc-info{ display:flex; flex-direction:column; justify-content:center; gap:1.6rem; }
+  .loc-info h3{ font-size:1.4rem; letter-spacing:0.06em; }
+  .loc-line{ display:flex; gap:14px; color: var(--bone-dim); font-size:1.05rem; line-height:1.5; }
+  .loc-line b{ color: var(--bone); font-weight:600; }
+  .map-frame{ border:1px solid var(--steel); border-radius: 8px; overflow:hidden; min-height:340px; }
+  .map-frame iframe{ width:100%; height:100%; min-height:340px; border:0; filter: grayscale(0.3) contrast(1.05); }
+  @media (max-width: 900px){ .loc-grid{ grid-template-columns: 1fr; } }
+
+  /* ---------- FOOTER ---------- */
+  footer{
+    padding: 2.6rem 6vw; display:flex; flex-direction:column; gap:1.2rem;
+    border-top: 1px solid var(--steel); color: var(--bone-dim); font-size:0.9rem;
+  }
+  .footer-top{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:1rem; }
+  .footer-bottom{ display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:0.6rem; padding-top:1rem; border-top:1px solid var(--steel); font-size:0.85rem; }
+  .footer-bottom a{ color: var(--bone-dim); transition:color 0.2s; }
+  .footer-bottom a:hover{ color: var(--red); }
+  footer .logo{ font-size:1.1rem; }
+
+  @media (max-width: 700px){
+    .nav-links{ display:none; }
+    section{ padding: 4.5rem 6vw; }
+  }
+
+  /* ---------- BOOKING MODAL ---------- */
+  .modal-overlay{
+    position: fixed; inset:0; background: rgba(0,0,0,0.75);
+    display:none; align-items:center; justify-content:center;
+    z-index: 1000; padding: 20px; backdrop-filter: blur(3px);
+  }
+  .modal-overlay.open{ display:flex; }
+  .modal-box{
+    background: var(--panel); border:1px solid var(--steel); border-radius: 10px;
+    width: 100%; max-width: 480px; max-height: 88vh; overflow-y:auto;
+    padding: 2rem 1.8rem; position:relative;
+  }
+  .modal-close{
+    position:absolute; top:16px; right:16px; background:none; border:none;
+    color: var(--bone-dim); font-size:1.6rem; cursor:pointer; line-height:1;
+  }
+  .modal-close:hover{ color: var(--red); }
+  .modal-box h3{ font-size:1.6rem; margin-bottom: 0.3rem; }
+  .modal-step-label{ color: var(--red); font-weight:700; letter-spacing:0.2em; font-size:0.75rem; margin-bottom:1.2rem; }
+  .field{ margin-bottom: 1.2rem; }
+  .field label{ display:block; font-weight:600; font-size:0.9rem; margin-bottom:0.5rem; color: var(--bone-dim); text-transform:uppercase; letter-spacing:0.05em; }
+  .field input{
+    width:100%; background: var(--panel-2); border:1px solid var(--steel); color: var(--bone);
+    padding: 12px 14px; border-radius:6px; font-family:'Rajdhani',sans-serif; font-size:1.05rem;
+  }
+  .field input:focus{ outline:none; border-color: var(--red); }
+  .slot-grid{ display:grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-bottom: 1.4rem; }
+  .slot-btn{
+    background: var(--panel-2); border:1px solid var(--steel); color: var(--bone);
+    padding: 12px 8px; border-radius:6px; font-family:'Rajdhani',sans-serif; font-weight:600;
+    font-size:0.95rem; cursor:pointer; transition: all 0.15s;
+  }
+  .slot-btn:hover{ border-color: var(--red); }
+  .slot-btn.selected{ background: var(--red); border-color: var(--red); color: var(--black); }
+  .slot-btn.full{ opacity:0.4; cursor:not-allowed; text-decoration: line-through; }
+  .slot-btn.full:hover{ border-color: var(--steel); }
+  .modal-msg{ color: var(--bone-dim); font-size:0.9rem; margin-bottom:1rem; }
+  .modal-error{ color: var(--red); font-size:0.9rem; margin-bottom:1rem; display:none; }
+  .confirm-box{ text-align:center; padding: 1rem 0; }
+  .confirm-box .tick{ font-size:3rem; color: var(--red); margin-bottom:0.6rem; }
+  .confirm-detail{ background: var(--panel-2); border:1px solid var(--steel); border-radius:8px; padding:1rem 1.2rem; margin: 1.2rem 0; text-align:left; font-size:0.98rem; line-height:1.7; }
+  .confirm-detail b{ color: var(--bone); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">THE <span>BOOTCAMP</span></div>
+  <div class="nav-links">
+    <a href="#arsenal">Arsenal</a>
+    <a href="#services">Services</a>
+    <a href="#location">Location</a>
+  </div>
+  <button class="nav-cta" onclick="openBooking()">Book Slot</button>
+</nav>
+
+<section class="hero">
+  <div class="hero-eyebrow">GAMING ZONE · DHULE</div>
+  <h1>PLAY.<br>TRAIN.<br><span class="accent">DOMINATE.</span></h1>
+  <p class="hero-sub">Console gaming, rentals and sales under one roof. Xbox and PlayStation slots, the latest titles, and a squad-ready setup — walk in or call ahead.</p>
+  <div class="hero-actions">
+    <button class="btn-primary" onclick="openBooking()">Book Your Slot Now</button>
+    <a class="btn-ghost" href="#arsenal">See the Games</a>
+  </div>
+  <div class="platform-strip">
+    <div class="pf"><span class="dot"></span>XBOX</div>
+    <div class="pf"><span class="dot"></span>PLAYSTATION</div>
+    <div class="pf"><span class="dot"></span>PLAY · RENT · BUY</div>
+  </div>
+</section>
+
+<section class="services" id="services">
+  <div class="section-head">
+    <div class="section-num">// WHAT WE OFFER</div>
+    <h2 class="section-title">Three Ways to Game</h2>
+  </div>
+  <div class="service-grid">
+    <div class="service-card">
+      <div class="service-num">01</div>
+      <h3>Play</h3>
+      <p>Book a slot and drop in. Xbox and PlayStation stations set up and ready for solo runs or squad sessions.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-num">02</div>
+      <h3>Rent</h3>
+      <p>Take a console or a title home. Flexible rental terms on the latest games and hardware.</p>
+    </div>
+    <div class="service-card">
+      <div class="service-num">03</div>
+      <h3>Buy</h3>
+      <p>Looking to own it outright? Browse consoles and games available for purchase in-store.</p>
+    </div>
+  </div>
+</section>
+
+<section id="arsenal">
+  <div class="section-head">
+    <div class="section-num">// THE ARSENAL</div>
+    <h2 class="section-title">Titles In Rotation</h2>
+  </div>
+  <p class="arsenal-sub">Every tag below is live and ready to load. Ask in-store for full availability and platform options.</p>
+  <div class="tag-grid">
+    <div class="tag"><div class="plat">Xbox / PS</div><h4>Call of Duty: Ghosts</h4></div>
+    <div class="tag"><div class="plat">PlayStation</div><h4>WWE 2K25</h4></div>
+    <div class="tag"><div class="plat">Xbox / PS</div><h4>WWE 2K24</h4></div>
+    <div class="tag"><div class="plat">Xbox / PS</div><h4>Grand Theft Auto V</h4></div>
+    <div class="tag"><div class="plat">PlayStation</div><h4>Marvel's Spider-Man 2</h4></div>
+    <div class="tag"><div class="plat">Xbox / PS</div><h4>EA Sports FC 26</h4></div>
+    <div class="tag"><div class="plat">Xbox / PS</div><h4>EA Sports FIFA 24</h4></div>
+    <div class="tag"><div class="plat">Xbox / PS</div><h4>God of War</h4></div>
+    <div class="tag"><div class="plat">Xbox / PS</div><h4>Mortal Kombat</h4></div>
+    <div class="tag"><div class="plat">Xbox / PS</div><h4>Red Dead Redemption 2</h4></div>
+  </div>
+</section>
+
+<section class="booking">
+  <h2>Slots fill up fast on weekends.<br>Reserve yours ahead of time.</h2>
+  <div class="booking-numbers">
+    <button class="btn-primary" style="margin-bottom:0.6rem" onclick="openBooking()">Book Your Slot</button>
+    <a href="tel:7219384804"><svg class="call-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.36 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.34 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>7219384804</a>
+    <a href="tel:8177901034"><svg class="call-ico" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.127.96.36 1.903.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.907.34 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>8177901034</a>
+  </div>
+</section>
+
+<section class="location" id="location">
+  <div class="section-head">
+    <div class="section-num">// FIND US</div>
+    <h2 class="section-title">On the Ground</h2>
+  </div>
+  <div class="loc-grid">
+    <div class="loc-info">
+      <h3>The Bootcamp Gaming Zone</h3>
+      <div class="loc-line"><b>Address —</b> Shriram Colony, Om Nagar, Shivaji Nagar, Deopur, Dhule, Maharashtra 424002</div>
+      <div class="loc-line"><b>Call —</b> 7219384804 / 8177901034</div>
+      <div class="loc-line"><b>Email —</b> <a href="mailto:thebootcampdhule@gmail.com" style="color:var(--bone); text-decoration:underline;">thebootcampdhule@gmail.com</a></div>
+      <div class="loc-line"><b>Services —</b> Console gaming slots, rentals, and sales for Xbox and PlayStation</div>
+      <a class="btn-ghost" style="width:fit-content" href="https://maps.app.goo.gl/iwcF1WvFEbWtDSwA6" target="_blank" rel="noopener">Get Directions</a>
+    </div>
+    <div class="map-frame">
+      <iframe src="https://www.google.com/maps?q=The+Bootcamp+Gaming+Zone,+Shriram+Colony,+Om+Nagar,+Shivaji+Nagar,+Deopur,+Dhule,+Maharashtra+424002&output=embed" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-top">
+    <div class="logo">THE <span style="color:var(--red)">BOOTCAMP</span></div>
+    <div>Play. Train. Dominate. — Dhule, Maharashtra</div>
+  </div>
+  <div class="footer-bottom">
+    <div>Founder — <b style="color:var(--bone)">Sai Thakare</b> &nbsp;|&nbsp; <a href="mailto:thebootcampdhule@gmail.com">thebootcampdhule@gmail.com</a></div>
+    <div>Website by <b style="color:var(--bone)">Aditya Chavan</b></div>
+  </div>
+</footer>
+
+<div class="modal-overlay" id="bookingOverlay">
+  <div class="modal-box">
+    <button class="modal-close" onclick="closeBooking()">&times;</button>
+
+    <div id="stepDetails">
+      <div class="modal-step-label">STEP 1 OF 2</div>
+      <h3>Book Your Slot</h3>
+      <p class="modal-msg">Pick a date to see open hours.</p>
+
+      <div class="field">
+        <label for="bookDate">Date</label>
+        <input type="date" id="bookDate" onchange="loadSlots()">
+      </div>
+
+      <div id="slotWrap" style="display:none;">
+        <div class="field" style="margin-bottom:0.8rem;">
+          <label>Available Slots (1 hour each)</label>
+          <div class="slot-grid" id="slotGrid"></div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="bookName">Your Name</label>
+        <input type="text" id="bookName" placeholder="Full name">
+      </div>
+      <div class="field">
+        <label for="bookPhone">Phone Number</label>
+        <input type="tel" id="bookPhone" placeholder="10-digit mobile number">
+      </div>
+      <div class="field">
+        <label for="bookEmail">Email (for confirmation)</label>
+        <input type="email" id="bookEmail" placeholder="you@example.com">
+      </div>
+
+      <div class="modal-error" id="bookError"></div>
+      <button class="btn-primary" style="width:100%; justify-content:center;" onclick="submitBooking()">Confirm Booking</button>
+    </div>
+
+    <div id="stepConfirm" style="display:none;">
+      <div class="confirm-box">
+        <div class="tick">&#10003;</div>
+        <h3>Slot Booked!</h3>
+        <p class="modal-msg">See you at The Bootcamp.</p>
+        <div class="confirm-detail" id="confirmDetail"></div>
+        <button class="btn-ghost" style="width:100%; justify-content:center;" onclick="closeBooking()">Done</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ---- CONFIG ----
+  // After deploying the Google Apps Script (see instructions), paste your
+  // Web App URL below. It will look like:
+  // https://script.google.com/macros/s/AKfycb.../exec
+  const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxYrlieyOqLgOhj9mRZrS3hRFrmNEex8dsq2rbzKHG-07FJ6SwdAt7ketdM-EoJNo6ZkQ/exec";
+
+  const SLOTS = [
+    "8:00 AM - 9:00 AM","9:00 AM - 10:00 AM","10:00 AM - 11:00 AM","11:00 AM - 12:00 PM",
+    "12:00 PM - 1:00 PM","1:00 PM - 2:00 PM","2:00 PM - 3:00 PM","3:00 PM - 4:00 PM",
+    "4:00 PM - 5:00 PM","5:00 PM - 6:00 PM","6:00 PM - 7:00 PM","7:00 PM - 8:00 PM","8:00 PM - 9:00 PM"
+  ];
+
+  let selectedDate = null;
+  let selectedSlot = null;
+
+  function openBooking(){
+    document.getElementById('bookingOverlay').classList.add('open');
+    document.getElementById('stepDetails').style.display = 'block';
+    document.getElementById('stepConfirm').style.display = 'none';
+    const dateInput = document.getElementById('bookDate');
+    const today = new Date().toISOString().split('T')[0];
+    dateInput.min = today;
+    if(!dateInput.value) dateInput.value = today;
+    loadSlots();
+  }
+
+  function closeBooking(){
+    document.getElementById('bookingOverlay').classList.remove('open');
+  }
+
+  async function loadSlots(){
+    selectedSlot = null;
+    const dateInput = document.getElementById('bookDate');
+    selectedDate = dateInput.value;
+    if(!selectedDate) return;
+
+    document.getElementById('slotWrap').style.display = 'block';
+    const grid = document.getElementById('slotGrid');
+    grid.innerHTML = '<div class="modal-msg">Loading availability...</div>';
+
+    let bookedSlots = [];
+    try{
+      const res = await fetch(SCRIPT_URL + '?date=' + selectedDate);
+      const data = await res.json();
+      bookedSlots = data.bookedSlots || [];
+    }catch(e){
+      grid.innerHTML = '<div class="modal-msg" style="color:var(--red)">Could not load availability. Check your internet connection or contact us directly at 7219384804.</div>';
+      return;
+    }
+
+    grid.innerHTML = '';
+    SLOTS.forEach(slot => {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'slot-btn';
+      btn.textContent = slot;
+      if(bookedSlots.includes(slot)){
+        btn.classList.add('full');
+        btn.textContent = slot + ' — FULL';
+        btn.disabled = true;
+      } else {
+        btn.onclick = () => selectSlot(slot, btn);
+      }
+      grid.appendChild(btn);
+    });
+  }
+
+  function selectSlot(slot, btn){
+    document.querySelectorAll('.slot-btn').forEach(b => b.classList.remove('selected'));
+    btn.classList.add('selected');
+    selectedSlot = slot;
+    document.getElementById('bookError').style.display = 'none';
+  }
+
+  async function submitBooking(){
+    const errorBox = document.getElementById('bookError');
+    const name = document.getElementById('bookName').value.trim();
+    const phone = document.getElementById('bookPhone').value.trim();
+    const email = document.getElementById('bookEmail').value.trim();
+
+    if(!selectedDate){ showError('Please pick a date.'); return; }
+    if(!selectedSlot){ showError('Please pick a time slot.'); return; }
+    if(!name){ showError('Please enter your name.'); return; }
+    if(!phone || phone.length < 10){ showError('Please enter a valid phone number.'); return; }
+
+    // Save the booking to the Google Sheet. The script itself double-checks
+    // the slot is still free right before writing, and emails the owner.
+    try{
+      const res = await fetch(SCRIPT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'text/plain;charset=utf-8' }, // avoids CORS preflight issues with Apps Script
+        body: JSON.stringify({ date: selectedDate, slot: selectedSlot, name, phone, email })
+      });
+      const data = await res.json();
+      if(!data.success){
+        showError(data.message || 'That slot was just booked. Please pick another.');
+        loadSlots();
+        return;
+      }
+    }catch(e){
+      showError('Could not connect to the booking system. Please check your internet connection and try again.');
+      return;
+    }
+
+    document.getElementById('confirmDetail').innerHTML =
+      '<b>Name:</b> ' + name + '<br>' +
+      '<b>Phone:</b> ' + phone + '<br>' +
+      '<b>Date:</b> ' + selectedDate + '<br>' +
+      '<b>Time:</b> ' + selectedSlot;
+
+    document.getElementById('stepDetails').style.display = 'none';
+    document.getElementById('stepConfirm').style.display = 'block';
+  }
+
+  function showError(msg){
+    const errorBox = document.getElementById('bookError');
+    errorBox.textContent = msg;
+    errorBox.style.display = 'block';
+  }
+</script>
+
+</body>
+</html>
